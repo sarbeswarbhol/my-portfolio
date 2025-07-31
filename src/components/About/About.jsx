@@ -2,6 +2,7 @@ import React from "react";
 import ReactTypingEffect from "react-typing-effect";
 import Tilt from "react-parallax-tilt";
 import profileImage from "../../assets/profile/profile2.png";
+import pfpImage from "../../assets/profile/pfp.jpg";
 
 const About = () => {
   return (
@@ -51,7 +52,7 @@ const About = () => {
           </p>
           {/* Resume Button */}
           <a
-            href="https://drive.google.com/file/d/13-IuJEdDjS86dF_l9qK6Ym26ROWM7e6H/view?usp=sharing"
+            href="https://drive.google.com/file/d/1Gdtffzq971Lj_-MWNhC8eKJ2RNJfiL8R/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block text-white py-3 px-8 rounded-full mt-5 text-lg font-bold transition duration-300 transform hover:scale-105"
@@ -73,7 +74,7 @@ const About = () => {
             transitionSpeed={1000}
             gyroscope={true}>
             <img
-              src={profileImage}
+              src={pfpImage}
               alt="Sarbeswar Bhol"
               className="w-full h-full rounded-full object-cover drop-shadow-[0_10px_20px_rgba(130,69,236,0.5)]"
             />
