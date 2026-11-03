@@ -53,59 +53,49 @@ import calculatorLogo from './assets/work_logo/calculator.png';
 import stopwatchLogo from './assets/work_logo/stopwatch.png';
 import myFaceCloneLogo from './assets/work_logo/myfaceclone.png';
 
+
 export const SkillsInfo = [
   {
-    title: 'Frontend',
+    title: "Frontend",
     skills: [
-      { name: 'HTML', logo: htmlLogo },
-      { name: 'CSS', logo: cssLogo },
-      { name: 'Tailwind CSS', logo: tailwindcssLogo },
-      { name: 'JavaScript', logo: javascriptLogo },
-      { name: 'React JS (Learning)', logo: reactjsLogo },
-      { name: 'Redux (Learning)', logo: reduxLogo },
-      { name: 'Bootstrap', logo: bootstrapLogo },
-      { name: 'Material UI', logo: materialuiLogo },
-      { name: 'Figma', logo: figmaLogo },
+      { name: "HTML", logo: htmlLogo },
+      { name: "CSS", logo: cssLogo },
+      { name: "JavaScript", logo: javascriptLogo },
+      { name: "Bootstrap", logo: bootstrapLogo },
+      { name: "Tailwind CSS", logo: tailwindcssLogo },
     ],
   },
   {
-    title: 'Backend',
+    title: "Backend",
     skills: [
-      { name: 'Django', logo: djangoLogo },
-      { name: 'MySQL', logo: mysqlLogo },
-      { name: 'PostgreSQL', logo: postgreLogo },
-      { name: 'MongoDB', logo: mongodbLogo },
-      { name: 'Node JS (Learning)', logo: nodejsLogo },
-      { name: 'Express JS (Learning)', logo: expressjsLogo },
-      { name: 'MySQL (Learning)', logo: mysqlLogo },
-      { name: 'Firebase (Basic)', logo: firebaseLogo },
+      { name: "Python", logo: pythonLogo },
+      { name: "Django", logo: djangoLogo },
+      { name: "Flask" },
+      { name: "FastAPI" },
     ],
   },
   {
-    title: 'Languages',
+    title: "Databases",
     skills: [
-      { name: 'C', logo: cLogo },
-      { name: 'C++', logo: cppLogo },
-      { name: 'Java', logo: javaLogo },
-      { name: 'Python', logo: pythonLogo },
-      { name: 'C-Sharp', logo: csharpLogo },
-      { name: 'JavaScript', logo: javascriptLogo },
-      { name: 'TypeScript', logo: typescriptLogo },
+      { name: "MySQL", logo: mysqlLogo },
+      { name: "PostgreSQL", logo: postgreLogo },
+      { name: "SQLite" },
+      { name: "Oracle SQL" },
     ],
   },
   {
-    title: 'Tools',
+    title: "Testing & Tools",
     skills: [
-      { name: 'Git', logo: gitLogo },
-      { name: 'GitHub', logo: githubLogo },
-      { name: 'VS Code', logo: vscodeLogo },
-      { name: 'Postman', logo: postmanLogo },
-      { name: 'Vercel', logo: vercelLogo },
-      { name: 'Netlify', logo: netlifyLogo },
-      { name: 'Figma', logo: figmaLogo },
+      { name: "Selenium" },
+      { name: "Pytest" },
+      { name: "Git", logo: gitLogo },
+      { name: "GitHub", logo: githubLogo },
+      { name: "VS Code", logo: vscodeLogo },
+      { name: "Postman", logo: postmanLogo },
     ],
   },
 ];
+
 
 export const experiences = [
   {

@@ -1,96 +1,205 @@
-import React from "react";
-import { experiences } from "../../constants"; // Import your data
 
-const Experience = () => {
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const Contact = () => {
+  const form = useRef(null);
+  const [isSending, setIsSending] = useState(false);
+
+  const sendEmail = async (e) => {
+    e.preventDefault();
+
+    if (isSending) return;
+
+    setIsSending(true);
+
+    try {
+      await emailjs.sendForm(
+        "service_gzh5bnv",
+        "template_piboy4r",
+        form.current,
+        "G0q1y2y1n32ZwSpfn"
+      );
+
+      form.current.reset();
+
+      toast.success("Message sent successfully! 🚀", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "dark",
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+
+      toast.error("Failed to send message. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "dark",
+      });
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const inputStyle =
+    "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-sm text-white placeholder-gray-500 outline-none transition-all duration-300 focus:border-[#8245ec]/70 focus:bg-[#8245ec]/[0.06] focus:shadow-[0_0_15px_rgba(130,69,236,0.12)]";
+
   return (
     <section
-      id="experience"
-      className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[16vw] font-sans bg-skills-gradient clip-path-custom-2"
+      id="contact"
+      className="relative px-[7vw] py-20 font-sans md:px-[7vw] lg:px-[12vw]"
     >
-      {/* Section Title */}
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-white">EXPERIENCE</h2>
-        <div className="w-32 h-1 bg-purple-500 mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4 text-lg font-semibold">
-          A collection of my work experience and the roles I have taken in
-          various organizations
+      <ToastContainer />
+
+      {/* Section Heading */}
+      <div className="mb-14 text-center">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-[#a78bfa]">
+          Let's Connect
+        </p>
+
+        <h2 className="text-3xl font-bold text-white md:text-5xl">
+          Get In Touch
+        </h2>
+
+        <div className="mx-auto mt-5 h-1 w-20 rounded-full bg-[#8245ec]" />
+
+        <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-gray-400 md:text-base">
+          Have an opportunity, a question, or just want to connect?
+          I'd love to hear from you. Drop me a message!
         </p>
       </div>
 
-      {/* Experience Timeline */}
-      <div className="relative">
-        {/* Vertical line */}
-        <div className="absolute sm:left-1/2 left-0 transform -translate-x-1/2 sm:-translate-x-0 w-1 bg-white h-full"></div>
+      {/* Contact Form Container */}
+      <div className="relative mx-auto max-w-2xl">
+        {/* Background Glow */}
+        <div className="pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#8245ec]/20 via-purple-500/10 to-pink-500/20 opacity-70 blur-xl" />
 
-        {/* Experience Entries */}
-        {experiences.map((experience, index) => (
-          <div
-            key={experience.id}
-            className={`flex flex-col sm:flex-row items-center mb-16 ${
-              index % 2 === 0 ? "sm:justify-end" : "sm:justify-start"
-            }`}
+        <div className="relative rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-[0_0_40px_rgba(130,69,236,0.08)] backdrop-blur-xl sm:p-10">
+          {/* Form Heading */}
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#8245ec]/30 bg-[#8245ec]/10 text-2xl">
+              ✉️
+            </div>
+
+            <h3 className="text-xl font-bold text-white md:text-2xl">
+              Send Me a Message
+            </h3>
+
+            <p className="mt-2 text-sm text-gray-400">
+              I'll get back to you as soon as possible.
+            </p>
+          </div>
+
+          {/* Contact Form */}
+          <form
+            ref={form}
+            onSubmit={sendEmail}
+            className="flex flex-col gap-5"
           >
-            {/* Timeline Circle */}
-            <div className="absolute sm:left-1/2 left-0 transform -translate-x-1/2 bg-gray-400 border-4 border-[#8245ec] w-12 h-12 sm:w-16 sm:h-16 rounded-full flex justify-center items-center z-10">
-              <img
-                src={experience.img}
-                alt={experience.company}
-                className="w-full h-full object-cover rounded-full"
+            {/* Name */}
+            <div>
+              <label
+                htmlFor="user_name"
+                className="mb-2 block text-sm font-medium text-gray-300"
+              >
+                Your Name
+              </label>
+
+              <input
+                id="user_name"
+                type="text"
+                name="user_name"
+                placeholder="Enter your name"
+                autoComplete="name"
+                required
+                className={inputStyle}
               />
             </div>
 
-            {/* Content Section */}
-            <div
-              className={`w-full sm:max-w-md p-4 sm:p-8 rounded-2xl border border-white bg-gray-900 backdrop-blur-md shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] ${
-                index % 2 === 0 ? "sm:ml-0" : "sm:mr-0"
-              } sm:ml-44 sm:mr-44 ml-8 transform transition-transform duration-300 hover:scale-105`}
-            >
-              {/* Flex container for image and text */}
-              <div className="flex items-center space-x-6">
-                {/* Company Logo/Image */}
-                <div className="w-16 h-16 bg-white rounded-md overflow-hidden">
-                  <img
-                    src={experience.img}
-                    alt={experience.company}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="user_email"
+                className="mb-2 block text-sm font-medium text-gray-300"
+              >
+                Email Address
+              </label>
 
-                {/* Role, Company Name, and Date */}
-                <div className="flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white">
-                      {experience.role}
-                    </h3>
-                    <h4 className="text-md sm:text-sm text-gray-300">
-                      {experience.company}
-                    </h4>
-                  </div>
-                  {/* Date at the bottom */}
-                  <p className="text-sm text-gray-500 mt-2">{experience.date}</p>
-                </div>
-              </div>
-
-              <p className="mt-4 text-gray-400">{experience.desc}</p>
-              <div className="mt-4">
-                <h5 className="font-medium text-white">Skills:</h5>
-                <ul className="flex flex-wrap mt-2">
-                  {experience.skills.map((skill, index) => (
-                    <li
-                      key={index}
-                      className="bg-[#8245ec] text-gray-300 px-4 py-1 text-xs sm:text-sm rounded-lg mr-2 mb-2 border border-gray-400"
-                    >
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <input
+                id="user_email"
+                type="email"
+                name="user_email"
+                placeholder="Enter your email"
+                autoComplete="email"
+                required
+                className={inputStyle}
+              />
             </div>
-          </div>
-        ))}
+
+            {/* Subject */}
+            <div>
+              <label
+                htmlFor="subject"
+                className="mb-2 block text-sm font-medium text-gray-300"
+              >
+                Subject
+              </label>
+
+              <input
+                id="subject"
+                type="text"
+                name="subject"
+                placeholder="What is this regarding?"
+                required
+                className={inputStyle}
+              />
+            </div>
+
+            {/* Message */}
+            <div>
+              <label
+                htmlFor="message"
+                className="mb-2 block text-sm font-medium text-gray-300"
+              >
+                Message
+              </label>
+
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Write your message here..."
+                required
+                className={`${inputStyle} resize-none`}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSending}
+              className="group mt-2 flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-[#8245ec] to-purple-600 py-4 text-sm font-semibold text-white shadow-[0_5px_20px_rgba(130,69,236,0.2)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(130,69,236,0.4)] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSending ? "Sending Message..." : "Send Message"}
+
+              {!isSending && (
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              )}
+            </button>
+          </form>
+
+          {/* Bottom Note */}
+          <p className="mt-6 text-center text-xs text-gray-500">
+            Your information will only be used to respond to your message.
+          </p>
+        </div>
       </div>
     </section>
   );
 };
 
-export default Experience;
+export default Contact;

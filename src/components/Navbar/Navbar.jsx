@@ -4,143 +4,180 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState("about");
   const [isScrolled, setIsScrolled] = useState(false);
-
-  // Detect scroll and change navbar background
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Smooth scroll function
-  const handleMenuItemClick = (sectionId) => {
-    setActiveSection(sectionId);
-    setIsOpen(false);
-
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const menuItems = [
     { id: "about", label: "About" },
     { id: "skills", label: "Skills" },
-    // { id: "experience", label: "Experience" },
     { id: "work", label: "Projects" },
     { id: "education", label: "Education" },
+    { id: "contact", label: "Contact" },
   ];
+
+  const socialLinks = [
+    {
+      name: "GitHub",
+      icon: <FaGithub />,
+      url: "https://github.com/sarbeswarbhol",
+    },
+    {
+      name: "LinkedIn",
+      icon: <FaLinkedin />,
+      url: "https://www.linkedin.com/in/sarbeswarbhol",
+    },
+  ];
+
+  // Detect scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+
+      const sections = menuItems
+        .map((item) => document.getElementById(item.id))
+        .filter(Boolean);
+
+      let currentSection = "about";
+
+      sections.forEach((section) => {
+        if (window.scrollY >= section.offsetTop - 180) {
+          currentSection = section.id;
+        }
+      });
+
+      setActiveSection(currentSection);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Smooth scrolling
+  const handleMenuItemClick = (sectionId) => {
+    setActiveSection(sectionId);
+    setIsOpen(false);
+
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition duration-300 px-[7vw] md:px-[7vw] lg:px-[20vw] ${
-        isScrolled ? "bg-[#050414] bg-opacity-50 backdrop-blur-md shadow-md" : "bg-transparent"
-      }`}
-    >
-      <div className="text-white py-5 flex justify-between items-center">
+      className={`fixed left-0 top-0 z-50 w-full px-[7vw] transition-all duration-300 md:px-[7vw] lg:px-[12vw] ${
+        isScrolled
+          ? "border-b border-white/[0.06] bg-[#050414]/55 shadow-[0_4px_20px_rgba(0,0,0,0.08)] backdrop-blur-sm"
+          : "bg-transparent"
+      }`}>
+      <div className="flex items-center justify-between py-4">
         {/* Logo */}
-        <div className="text-lg font-semibold cursor-pointer">
+        <button
+          onClick={() => handleMenuItemClick("about")}
+          className="group text-lg font-bold tracking-wide text-white transition duration-300"
+          aria-label="Go to About section">
           <span className="text-[#8245ec]">&lt;</span>
-          <span className="text-white">Sarbeswar</span>
+          Sarbeswar
           <span className="text-[#8245ec]">/</span>
-          <span className="text-white">Bhol</span>
+          Bhol
           <span className="text-[#8245ec]">&gt;</span>
-        </div>
+        </button>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-8 text-gray-300">
+        {/* Desktop Navigation */}
+        <ul className="hidden items-center gap-8 md:flex">
           {menuItems.map((item) => (
-            <li
-              key={item.id}
-              className={`cursor-pointer hover:text-[#8245ec] ${
-                activeSection === item.id ? "text-[#8245ec]" : ""
-              }`}
-            >
-              <button onClick={() => handleMenuItemClick(item.id)}>
+            <li key={item.id}>
+              <button
+                onClick={() => handleMenuItemClick(item.id)}
+                className={`group relative py-2 text-sm font-medium transition-colors duration-300 ${
+                  activeSection === item.id
+                    ? "text-[#a78bfa]"
+                    : "text-gray-400 hover:text-white"
+                }`}>
                 {item.label}
+
+                <span
+                  className={`absolute -bottom-0.5 left-0 h-0.5 rounded-full bg-[#8245ec] transition-all duration-300 ${
+                    activeSection === item.id
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                />
               </button>
             </li>
           ))}
         </ul>
 
-        {/* Social Icons */}
-        <div className="hidden md:flex space-x-4">
-          <a
-            href="https://github.com/sarbeswarbhol"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-300 hover:text-[#8245ec]"
-          >
-            <FaGithub size={24} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/sarbeswarbhol"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-300 hover:text-[#8245ec]"
-          >
-            <FaLinkedin size={24} />
-          </a>
+        {/* Desktop Social Links */}
+        <div className="hidden items-center gap-3 md:flex">
+          {socialLinks.map((item) => (
+            <a
+              key={item.name}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={item.name}
+              title={item.name}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-lg text-gray-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#8245ec]/50 hover:bg-[#8245ec]/10 hover:text-purple-300">
+              {item.icon}
+            </a>
+          ))}
         </div>
 
-        {/* Mobile Menu Icon */}
-        <div className="md:hidden">
-          {isOpen ? (
-            <FiX
-              className="text-3xl text-[#8245ec] cursor-pointer"
-              onClick={() => setIsOpen(false)}
-            />
-          ) : (
-            <FiMenu
-              className="text-3xl text-[#8245ec] cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            />
-          )}
-        </div>
+        {/* Mobile Menu Button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-2xl text-purple-300 transition hover:border-[#8245ec]/50 hover:bg-[#8245ec]/10 md:hidden"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}>
+          {isOpen ? <FiX /> : <FiMenu />}
+        </button>
       </div>
 
-      {/* Mobile Menu Items */}
-      {isOpen && (
-        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5 bg-[#050414] bg-opacity-50 backdrop-filter backdrop-blur-lg z-50 rounded-lg shadow-lg md:hidden">
-          <ul className="flex flex-col items-center space-y-4 py-4 text-gray-300">
+      {/* Mobile Navigation */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out md:hidden ${
+          isOpen ? "max-h-[450px] pb-5 opacity-100" : "max-h-0 opacity-0"
+        }`}>
+        <div className="rounded-2xl border border-white/10 bg-[#100b20]/95 p-5 shadow-[0_10px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+          <ul className="flex flex-col gap-2">
             {menuItems.map((item) => (
-              <li
-                key={item.id}
-                className={`cursor-pointer hover:text-white ${
-                  activeSection === item.id ? "text-[#8245ec]" : ""
-                }`}
-              >
-                <button onClick={() => handleMenuItemClick(item.id)}>
+              <li key={item.id}>
+                <button
+                  onClick={() => handleMenuItemClick(item.id)}
+                  className={`w-full rounded-lg px-4 py-3 text-left text-sm font-medium transition-all duration-300 ${
+                    activeSection === item.id
+                      ? "bg-[#8245ec]/15 text-purple-300"
+                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
+                  }`}>
                   {item.label}
                 </button>
               </li>
             ))}
-            <div className="flex space-x-4">
-              <a
-                href="https://github.com/sarbeswarbhol"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-white"
-              >
-                <FaGithub size={24} />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/sarbeswarbhol"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-white"
-              >
-                <FaLinkedin size={24} />
-              </a>
-            </div>
           </ul>
+
+          {/* Mobile Social Links */}
+          <div className="mt-5 flex justify-center gap-4 border-t border-white/10 pt-5">
+            {socialLinks.map((item) => (
+              <a
+                key={item.name}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={item.name}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-lg text-gray-400 transition hover:border-[#8245ec]/50 hover:text-purple-300">
+                {item.icon}
+              </a>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
